@@ -1,5 +1,6 @@
 package com.srijan.mygreetingapp.controller;
 
+import com.srijan.mygreetingapp.service.GreetingService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -7,9 +8,15 @@ import java.util.Map;
 @RestController
 @RequestMapping("/greeting")
 public class GreetingController {
+    private final GreetingService greetingServices;
+
+    public GreetingController() {
+        this.greetingServices = new GreetingService();
+    }
+
     @GetMapping
     public Map<String, String> getGreeting() {
-        return  Map.of("message", "Hello GET Request!");
+        return  Map.of("message", greetingServices.getGreetingMessage());
     }
 
     @PostMapping
