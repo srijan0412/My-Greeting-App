@@ -2,21 +2,28 @@ package com.srijan.mygreetingapp.controller;
 
 import com.srijan.mygreetingapp.service.GreetingService;
 import org.springframework.web.bind.annotation.*;
+import com.srijan.mygreetingapp.model.Greeting;
 
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/greeting")
 public class GreetingController {
-    private final GreetingService greetingServices;
+    private final GreetingService greetingService;
 
-    public GreetingController() {
-        this.greetingServices = new GreetingService();
+    public GreetingController(GreetingService greetingService) {
+        this.greetingService = greetingService;
     }
 
     @GetMapping
     public Map<String, String> getGreeting(@RequestParam(required = false) String firstName,@RequestParam(required = false) String lastName) {
-        return  Map.of("message", greetingServices.getGreetingMessage(firstName, lastName));
+        return  Map.of("message", greetingService.getGreetingMessage(firstName, lastName));
+    }
+
+    @GetMapping("/{id}")
+    public Optional<Greeting> getGreetingById(@PathVariable Long id) {
+        return greetingService.getGreetingById(id);
     }
 
     @PostMapping

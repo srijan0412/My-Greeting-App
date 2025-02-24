@@ -1,19 +1,37 @@
 package com.srijan.mygreetingapp.service;
 
+import com.srijan.mygreetingapp.model.Greeting;
+import com.srijan.mygreetingapp.repository.GreetingRepository;
 import org.springframework.stereotype.Service;
+import java.util.Optional;
 
 @Service
 public class GreetingService {
-    public String getGreetingMessage(String firstName, String lastName){
+
+    private final GreetingRepository greetingRepository;
+
+    public GreetingService(GreetingRepository greetingRepository) {
+        this.greetingRepository = greetingRepository;
+    }
+
+    public String getGreetingMessage(String firstName, String lastName) {
+        String message;
         if (firstName != null && lastName != null) {
-            return "Hello " + firstName + " " + lastName + "!";
+            message = "Hello, " + firstName + " " + lastName + "!";
+        } else if (firstName != null) {
+            message = "Hello, " + firstName + "!";
+        } else if (lastName != null) {
+            message = "Hello, " + lastName + "!";
+        } else {
+            message = "Hello World!";
         }
-        else if (firstName != null) {
-            return "Hello " + firstName +  "!";
-        }
-        else if (lastName != null) {
-            return "Hello " + lastName + "!";
-        }
-        return "Hello World!";
+
+        // Save to database
+        greetingRepository.save(new Greeting(message));
+        return message;
+    }
+
+    public Optional<Greeting> getGreetingById(Long id) {
+        return greetingRepository.findById(id);
     }
 }
