@@ -1,6 +1,7 @@
 package com.srijan.mygreetingapp.controller;
 
 import com.srijan.mygreetingapp.service.GreetingService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.srijan.mygreetingapp.model.Greeting;
 
@@ -49,8 +50,11 @@ public class GreetingController {
         return Map.of("message", "Hello PUT Request!", "data", body.get("name"));
     }
 
-    @DeleteMapping
-    public Map<String, String> deleteGreeting() {
-        return Map.of("message", "Hello, DELETE Request!");
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteGreeting(@PathVariable Long id) {
+        if (greetingService.deleteGreeting(id)) {
+            return ResponseEntity.ok("Greeting deleted Successfully!");
+        }
+        return ResponseEntity.status(404).body("Greeting not found!");
     }
 }
