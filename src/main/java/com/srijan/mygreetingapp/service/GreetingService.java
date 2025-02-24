@@ -5,6 +5,7 @@ import com.srijan.mygreetingapp.repository.GreetingRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.List;
 
 @Service
 public class GreetingService {
@@ -28,12 +29,18 @@ public class GreetingService {
         }
 
         // Save to database
-        greetingRepository.save(new Greeting(message));
-        return message;
+        // Save the greeting message in the database
+        Greeting greeting = new Greeting(message);
+        Greeting savedGreeting = greetingRepository.save(greeting);
+        return "Saved with ID: " + savedGreeting.getId();
     }
 
     //Method to fetch a greeting by id from the repository
     public Optional<Greeting> getGreetingById(Long id) {
         return greetingRepository.findById(id);
+    }
+
+    public List<Greeting> getAllGreeting(){
+        return greetingRepository.findAll();
     }
 }
