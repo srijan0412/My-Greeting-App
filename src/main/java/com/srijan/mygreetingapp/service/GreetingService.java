@@ -29,7 +29,6 @@ public class GreetingService {
         }
 
         // Save to database
-        // Save the greeting message in the database
         Greeting greeting = new Greeting(message);
         Greeting savedGreeting = greetingRepository.save(greeting);
         return "Saved with ID: " + savedGreeting.getId();
@@ -40,7 +39,14 @@ public class GreetingService {
         return greetingRepository.findById(id);
     }
 
-    public List<Greeting> getAllGreeting(){
+    public List<Greeting> getAllGreetings() {
         return greetingRepository.findAll();
+    }
+
+    public Optional<Greeting> updateGreeting(Long id, String newMessage){
+        return greetingRepository.findById(id).map(greeting -> {
+            greeting.setMessage(newMessage);
+            return greetingRepository.save(greeting);
+        });
     }
 }

@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import com.srijan.mygreetingapp.model.Greeting;
 
 import java.util.Map;
+import java.util.List;
 import java.util.Optional;
 import java.util.List;
 
@@ -29,8 +30,13 @@ public class GreetingController {
     }
 
     @GetMapping("/all")
-    public List<Greeting> getAllGreetings(){
-        return greetingService.getAllGreeting();
+    public List<Greeting> getAllGreetings() {
+        return greetingService.getAllGreetings();
+    }
+
+    @PutMapping("/{id}")
+    public Optional<Greeting> updateGreeting(@PathVariable Long id, @RequestBody Map<String, String> request){
+        return greetingService.updateGreeting(id, request.get("message"));
     }
 
     @PostMapping
