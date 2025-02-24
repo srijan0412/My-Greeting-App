@@ -6,6 +6,7 @@ import com.srijan.mygreetingapp.model.Greeting;
 
 import java.util.Map;
 import java.util.Optional;
+import java.util.List;
 
 @RestController
 @RequestMapping("/greeting")
@@ -21,9 +22,15 @@ public class GreetingController {
         return  Map.of("message", greetingService.getGreetingMessage(firstName, lastName));
     }
 
+    // Taking id from the user
     @GetMapping("/{id}")
     public Optional<Greeting> getGreetingById(@PathVariable Long id) {
         return greetingService.getGreetingById(id);
+    }
+
+    @GetMapping("/all")
+    public List<Greeting> getAllGreetings(){
+        return greetingService.getAllGreeting();
     }
 
     @PostMapping
