@@ -29,7 +29,6 @@ public class GreetingService {
         }
 
         // Save to database
-        // Save greeting message in the database
         Greeting greeting = new Greeting(message);
         Greeting savedGreeting = greetingRepository.save(greeting);
         return "Saved with ID: " + savedGreeting.getId();
