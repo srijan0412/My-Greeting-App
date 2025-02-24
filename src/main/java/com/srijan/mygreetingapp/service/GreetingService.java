@@ -50,4 +50,12 @@ public class GreetingService {
             return greetingRepository.save(greeting);
         });
     }
+
+    public boolean deleteGreeting(Long id) {
+        if (greetingRepository.existsById(id)){
+            greetingRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
 }
